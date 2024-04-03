@@ -2,32 +2,29 @@ import { backgroundSound } from "../conf";
 import { State } from "../state/state";
 
 const audio = new Audio(backgroundSound);
+const chargeAudioBackground = () => audio.play();
+const dechargeAudioBackground = () => audio.pause();
+
 const jump = new Audio("./sound/jump.wav");
 const dead = new Audio("./sound/gameover.wav");
 const bending = new Audio("./sound/bending.wav");
 const win = new Audio("./sound/win.wav");
 const colision = new Audio("./sound/colision.wav");
 const warningCollision = new Audio("./sound/warningCollision.wav");
-const chargeAudioBackground = () => audio.play();
-const dechargeAudioBackground = () => audio.pause();
-console.log("la musique de fond est chargée");
-
 
 export const BackGroundSoundEffect = {
     chargeAudioBackground: chargeAudioBackground,
     dechargeAudioBackground: dechargeAudioBackground
 }
 
-export const WinSoundEffect = {
-    win: win
-}
 
 export const MarioSoundEffect = {
     dead: { audio: dead, played: false },
     jump: { audio: jump, played: false },
     bending: { audio: bending, played: false },
     lostAlife: { audio: warningCollision, played: false },
-    destroyed: { audio: colision, played: false }
+    destroyed: { audio: colision, played: false },
+    win: { audio: win }
 }
 
 
@@ -39,7 +36,7 @@ export const UpdateAudio = (state: State) => {
     if (state.input.sound && audioOnLoad()) {
         if (state.endOfGame) {
             BackGroundSoundEffect.dechargeAudioBackground()
-            WinSoundEffect.win.play()
+            MarioSoundEffect.win.audio.play()
         }
         else if (state.mario.traits.dead && !MarioSoundEffect.dead.played) {
             BackGroundSoundEffect.dechargeAudioBackground()
@@ -62,11 +59,11 @@ export const UpdateAudio = (state: State) => {
                 MarioSoundEffect.bending.played = false;
             }
         }
-        if ((state.mario.traits.hasDestroyed || state.mario.traits.collisionOnTop) && !MarioSoundEffect.destroyed.played) {
+        if ((state.mario.traits.hasDestroyed || state.mario.traits.collisionOnTop && (state.mario.traits.jumping)) && !MarioSoundEffect.destroyed.played) {
             MarioSoundEffect.destroyed.audio.play();
             MarioSoundEffect.destroyed.played = true;
         }
-        else if ((!state.mario.traits.hasDestroyed || !state.mario.traits.collisionOnTop) && MarioSoundEffect.destroyed.played) {
+        else if ((!state.mario.traits.hasDestroyed || state.mario.traits.collisionOnTop) && MarioSoundEffect.destroyed.played) {
             MarioSoundEffect.destroyed.played = false;
             state.mario.traits.hasDestroyed = false;
             state.mario.traits.collisionOnTop = false;
@@ -74,6 +71,7 @@ export const UpdateAudio = (state: State) => {
         if (state.mario.traits.lostALife && !MarioSoundEffect.lostAlife.played) {
             MarioSoundEffect.lostAlife.played = true
             MarioSoundEffect.lostAlife.audio.play()
+            state.mario.traits.lostALife = false
         }
         else {
             MarioSoundEffect.lostAlife.played = false
@@ -81,6 +79,7 @@ export const UpdateAudio = (state: State) => {
     }
 
     else {
+
         BackGroundSoundEffect.dechargeAudioBackground()
     }
 }

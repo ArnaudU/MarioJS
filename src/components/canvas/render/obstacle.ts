@@ -2,14 +2,16 @@ import { drapeauImage, obstacleImage, shellImage } from "../conf"
 import { Drapeau, Shell, WoodWall } from "../state/object"
 import { State } from "../state/state"
 
+
 const WoodWallContour = {
     carre: { sx: 0, sy: 0, sw: 17, sh: 17 },
 }
 
-export const WoodWallRenderer = (ctx: CanvasRenderingContext2D, obstacle: WoodWall) => {
+export const WoodWallRenderer = (ctx: CanvasRenderingContext2D, state: State, obstacle: WoodWall) => {
     obstacle.img.src = obstacleImage
     var img = WoodWallContour.carre
-    ctx.drawImage(obstacle.img,
+
+    state.frame.draw(obstacle, ctx, state, obstacle.img,
         img.sx, img.sy,
         img.sw, img.sh,
         obstacle.x, obstacle.y,
@@ -24,11 +26,11 @@ const DrapeauContour = {
     boule: { sx: 130, sy: 0, sw: 52, sh: 48 }
 }
 
-export const DrapeauRenderer = (ctx: CanvasRenderingContext2D, obstacle: Drapeau) => {
+export const DrapeauRenderer = (ctx: CanvasRenderingContext2D, state: State, obstacle: Drapeau) => {
     obstacle.img.src = drapeauImage
     //On draw le drapeau
     var img = DrapeauContour.rectangle
-    ctx.drawImage(obstacle.img,
+    state.frame.draw(obstacle.drapeau, ctx, state, obstacle.img,
         img.sx, img.sy,
         img.sw, img.sh,
         obstacle.drapeau.x,
@@ -37,7 +39,7 @@ export const DrapeauRenderer = (ctx: CanvasRenderingContext2D, obstacle: Drapeau
         obstacle.drapeau.size.height)
 
     img = DrapeauContour.boule
-    ctx.drawImage(obstacle.img,
+    state.frame.draw(obstacle.boule, ctx, state, obstacle.img,
         img.sx, img.sy,
         img.sw, img.sh,
         obstacle.boule.x,
@@ -45,10 +47,9 @@ export const DrapeauRenderer = (ctx: CanvasRenderingContext2D, obstacle: Drapeau
         obstacle.boule.size.width,
         obstacle.boule.size.height)
 
-
     //On draw le baton
     img = DrapeauContour.baton
-    ctx.drawImage(obstacle.img,
+    state.frame.draw(obstacle.baton, ctx, state, obstacle.img,
         img.sx, img.sy,
         img.sw, img.sh,
         obstacle.baton.x,
@@ -58,7 +59,7 @@ export const DrapeauRenderer = (ctx: CanvasRenderingContext2D, obstacle: Drapeau
 
 
     img = DrapeauContour.bloc
-    ctx.drawImage(obstacle.img,
+    state.frame.draw(obstacle.bloc, ctx, state, obstacle.img,
         img.sx, img.sy,
         img.sw, img.sh,
         obstacle.bloc.x, obstacle.bloc.y,
@@ -69,12 +70,12 @@ const ShellContour = {
     first: { sx: 32, sy: 0, sw: 32, sh: 32 },
     number: 12
 }
-export const ShellRenderer = (ctx: CanvasRenderingContext2D, state: State) => {
-    const shell = state.object[0] as Shell;
+export const ShellRenderer = (ctx: CanvasRenderingContext2D, state: State, shell: Shell) => {
     shell.img.src = shellImage;
     var img = ShellContour.first;
     var number = Math.floor((state.iteration / 2) % ShellContour.number);
-    ctx.drawImage(shell.img,
+
+    state.frame.draw(shell, ctx, state, shell.img,
         img.sx * number + 3, img.sy + 4,
         img.sw - 7, img.sh - 9,
         shell.x, shell.y,

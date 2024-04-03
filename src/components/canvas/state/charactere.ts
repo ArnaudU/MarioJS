@@ -36,6 +36,7 @@ export class Mario extends Character {
     };
     immunise: number = 0
     life: number = 3
+    camera: { width: number, height: number }
     //Ajouter height et width
     constructor(position: { x: number, y: number }, vx: number, vy: number, size: { height: number, width: number },
         speed: number, jumpHeight: number) {
@@ -43,12 +44,13 @@ export class Mario extends Character {
         this.speed = speed;
         this.jumpHeight = jumpHeight;
         this.img.src = marioImage;
+        this.camera = { width: size.width * 10, height: size.height * 2 }
     }
 
     actionOnMario(state: State) {
         if (this.life <= 0) this.traits.dead = true
         //S'il appuie sur fleche haut + n'est pas deja en l'air
-        if (state.input.keyUp && !this.traits.jumping) {
+        if (state.input.keyUp && !this.traits.jumping && !this.traits.bending) {
             this.dy = 1
             this.vy = -this.jumpHeight
             this.traits.jumping = true
@@ -81,24 +83,22 @@ export class Mario extends Character {
     }
 
     graviteOnMario(state: State): void {
-        let hitObstacle = false
+        let hitObstacleOnTopOfMario = false
         for (const obstacle of state.obstacle) {
             if (obstacle.collisionOnTop(this)) {
                 this.traits.jumping = false
                 this.y = obstacle.y - this.size.height
                 this.dy = 0
-                hitObstacle = true
-                break
+                hitObstacleOnTopOfMario = true
             }
             if (obstacle.collisionOnBottom(this)) {
                 this.traits.jumping = false
                 this.traits.collisionOnTop = true
                 this.vy = 0
                 this.dy = 0
-                break
             }
         }
-        if (hitObstacle) return
+        if (hitObstacleOnTopOfMario) return
 
         //Dans le cas où il n'est pas au sol
         if (this.y + this.size.height + this.vy < terrainSkyBoundary(state)) {
@@ -132,6 +132,9 @@ export class Mario extends Character {
         }
         if (!this.traits.bending) {
             this.x += this.vx
+        }
+        if (this.x <= 0) {
+            this.x = 0
         }
     }
 

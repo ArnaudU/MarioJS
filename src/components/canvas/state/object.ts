@@ -35,12 +35,12 @@ export abstract class ObjectMobile extends ObjectImmobile {
         this.dx = 0;
         this.dy = 0;
     }
-    abstract update(state: State): void;
+    abstract step(state: State): void;
 }
 
 export class WoodWall extends ObjectImmobile {
 
-    life: number = 5;
+    life: number = 3;
     constructor(position: { x: number, y: number }, size: { height: number; width: number; }) {
         super(position.x, position.y, size);
     }
@@ -57,7 +57,8 @@ export class WoodWall extends ObjectImmobile {
             && character.y + character.vy < this.y + this.size.height
             && character.x < this.x + this.size.width && character.x + character.size.width > this.x);
         if (b) this.life--;
-        return b;
+        const equal = this.y + this.size.height === character.y && character.x < this.x + this.size.width && character.x + character.size.width > this.x
+        return b || equal;
     }
 
     collisionOnLeft(character: Character | ObjectMobile) {
@@ -109,7 +110,7 @@ export class Shell extends ObjectMobile {
         this.speed = speed
         this.dx = 0
     }
-    update(state: State) {
+    step(state: State) {
         if (this.dx === 0) {
             this.dx = 1
         }

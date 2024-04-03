@@ -1,13 +1,12 @@
-import { gravite, terrainSkyBoundary } from "../conf";
-import { BackGroundFrame } from "../render/render";
+import { BackGroundFrame } from "../render/frame";
 import { Mario } from "./charactere"
 import { Drapeau, WoodWall } from "./object";
 import { ObjectMobile } from "./object"; // Import the missing ObjectMobile class
 
 export type State = {
     mario: Mario
-    size: { height: number; width: number }
-    coords: { x: number, y: number }
+    screen: { height: number; width: number }
+    position: { x: number, y: number }
     endOfGame: boolean
     iteration: number
     input: { keyUp: boolean, keyDown: boolean, keyRight: boolean, keyLeft: boolean, keyS: boolean, sound: boolean }
@@ -15,8 +14,6 @@ export type State = {
     obstacle: Array<WoodWall>
     object: Array<ObjectMobile>
     drapeau: Drapeau
-
-
 }
 
 
@@ -51,15 +48,16 @@ const updateObstacles = (state: State) => {
 
 const updateObjects = (state: State) => {
     for (let object of state.object) {
-        if (object instanceof ObjectMobile) object.update(state);
+        object.step(state);
     }
     return state
 }
 
+
 export const step = (state: State): State => {
     if (winTheGame(state)) endOfGame(state)
-    else if (state.mario.traits.lostALife) {
-        state.mario.traits.lostALife = false
+    else if (state.mario.traits.dead) {
+        return state
     }
     else {
         state = state.mario.step(state)

@@ -26,44 +26,37 @@ const MarioRenderer = (ctx: CanvasRenderingContext2D, state: State) => {
     ctx.imageSmoothingEnabled = false;
 
     function draw(statement: any) {
-        if (state.mario.x + state.mario.size.width > state.size.width) {
-            ctx.drawImage(
-                sprites,
-                statement.move[Math.floor(state.iteration / 5 % statement.move.length)] * statement.sx,
-                statement.sy,
-                statement.sw,
-                statement.sh,
-                state.size.width - state.mario.size.width,
-                state.mario.y,
-                statement.dw,
-                statement.dh
-            );
+        ctx.drawImage(
+            sprites,
+            statement.move[Math.floor(state.iteration / 5 % statement.move.length)] * statement.sx,
+            statement.sy,
+            statement.sw,
+            statement.sh,
+            state.mario.x - state.frame.x,
+            state.mario.y - state.frame.y,
+            statement.dw,
+            statement.dh
+        );
+    }
+
+    function changeAngleCamera(state: State) {
+        //la difference entre la position de la frame et la camera embarqué sur mario à droite
+        const txright = state.mario.x + state.mario.size.width + (state.mario.camera.width / 2) - (state.frame.x + state.screen.width)
+        //la difference entre la position de la frame et la camera embarqué sur mario à gauche
+        const txleft = state.mario.x - state.mario.camera.width / 2 - state.frame.x
+        const tytop = state.mario.y - state.mario.camera.height / 2 - state.frame.y
+        const tybot = state.mario.y + state.mario.size.height + (state.mario.camera.height / 2) - (state.frame.y + state.screen.height)
+        if (txright > 0) {
+            state.frame.x += txright
         }
-        else if (state.mario.x < 0) {
-            ctx.drawImage(
-                sprites,
-                statement.move[Math.floor(state.iteration / 5 % statement.move.length)] * statement.sx,
-                statement.sy,
-                statement.sw,
-                statement.sh,
-                0,
-                state.mario.y,
-                statement.dw,
-                statement.dh
-            );
+        if (txleft < 0 && !(state.mario.x - (state.mario.camera.width / 2) < 0)) {
+            state.frame.x += txleft
         }
-        else {
-            ctx.drawImage(
-                sprites,
-                statement.move[Math.floor(state.iteration / 5 % statement.move.length)] * statement.sx,
-                statement.sy,
-                statement.sw,
-                statement.sh,
-                state.mario.x,
-                state.mario.y,
-                statement.dw,
-                statement.dh
-            );
+        if (tytop < 0) {
+            state.frame.y += tytop
+        }
+        if (tybot > 0 && !(state.frame.y >= 0)) {
+            state.frame.y += tybot
         }
     }
 
@@ -120,10 +113,9 @@ const MarioRenderer = (ctx: CanvasRenderingContext2D, state: State) => {
 
             }
         }
+        changeAngleCamera(state);
         draw(statement);
-
     }
-
     return update;
 
 }
