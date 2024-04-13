@@ -3,20 +3,20 @@ import { State } from "../state/state";
 //Dans le spritesheet preleve les images de mario move: position x de l'image dans le spritesheet 
 //et sx sy sh sw pour donner les premiers parametres de la fonction drawImage
 const MarioSpriteMovement = {
-    motionless: { move: [5], sx: 30.2, sy: 0, sh: 30, sw: 18, dw: 65, dh: 105 },
-    runLeft: { move: [0, 1, 2, 3, 4], sx: 31, sy: 0, sh: 30, sw: 18, dw: 65, dh: 105 },
-    runRight: { move: [7, 8, 9, 10, 11], sx: 30, sy: 0, sh: 30, sw: 18, dw: 65, dh: 105 },
-    swimingLeft: { move: [5, 4, 3], sx: 30, sy: 120, sh: 30, sw: 19, dw: 65, dh: 105 },
-    swimmingRight: { move: [7, 8, 9], sx: 30, sy: 120, sh: 30, sw: 20, dw: 65, dh: 105 },
-    jumpLeft: { move: [2, 3, 4], sx: 30, sy: 40, sh: 30, sw: 18, dw: 65, dh: 105 },
-    jumpRight: { move: [7, 8, 9], sx: 30, sy: 40, sh: 30, sw: 18, dw: 65, dh: 105 },
-    jumpStatic: { move: [5], sx: 30, sy: 80, sh: 30, sw: 18, dw: 65, dh: 105 },
-    bendingLeft: { move: [1], sx: 123, sy: 167, sh: 15, sw: 18, dw: 65, dh: 50 },
-    bendingRight: { move: [1], sx: 210, sy: 167, sh: 15, sw: 18, dw: 65, dh: 50 },
-    lookingBehind: { move: [1], sx: 150, sy: 40, sh: 30, sw: 18, dw: 65, dh: 105 },
-    lookingLeft: { move: [4], sx: 30, sy: 0, sh: 30, sw: 18, dw: 65, dh: 105 },
-    lookingRight: { move: [7], sx: 30.25, sy: 0, sh: 30, sw: 18, dw: 65, dh: 105 },
-    climbBehind: { move: [1, 10], sx: 30, sy: 120, sh: 30, sw: 18, dw: 65, dh: 105 },
+    motionless: { move: [5], sx: 30.5, sy: 0.5, sh: 30, sw: 16, dw: 50, dh: 105 },
+    runLeft: { move: [0, 1, 2, 3, 4], sx: 31, sy: 0.5, sh: 30, sw: 16.5, dw: 50, dh: 105 },
+    runRight: { move: [7, 8, 9, 10, 11], sx: 30.1, sy: 0.5, sh: 30, sw: 16.5, dw: 50, dh: 105 },
+    swimingLeft: { move: [5, 4, 3], sx: 30, sy: 120, sh: 30, sw: 19, dw: 50, dh: 105 },
+    swimmingRight: { move: [7, 8, 9], sx: 30, sy: 120, sh: 30, sw: 20, dw: 50, dh: 105 },
+    jumpLeft: { move: [2, 3, 4], sx: 30, sy: 40, sh: 30, sw: 18, dw: 50, dh: 105 },
+    jumpRight: { move: [7, 8, 9], sx: 30, sy: 40, sh: 30, sw: 18, dw: 50, dh: 105 },
+    jumpStatic: { move: [5], sx: 30, sy: 80, sh: 30, sw: 18, dw: 50, dh: 105 },
+    bendingLeft: { move: [1], sx: 123, sy: 167, sh: 15, sw: 18, dw: 50, dh: 50 },
+    bendingRight: { move: [1], sx: 210, sy: 167, sh: 15, sw: 18, dw: 50, dh: 50 },
+    lookingBehind: { move: [1], sx: 150, sy: 42, sh: 30, sw: 18, dw: 50, dh: 105 },
+    lookingLeft: { move: [4], sx: 31, sy: 1, sh: 29, sw: 13.5, dw: 50, dh: 105 },
+    lookingRight: { move: [7], sx: 30.25, sy: 1, sh: 29, sw: 13.5, dw: 50, dh: 105 },
+    climbBehind: { move: [1, 10], sx: 30, sy: 120, sh: 30, sw: 18, dw: 50, dh: 105 },
 }
 
 
@@ -63,7 +63,7 @@ const MarioRenderer = (ctx: CanvasRenderingContext2D, state: State) => {
     function update() {
         let statement;
         var traits = state.mario.traits;
-        if (traits.dead) {
+        if (traits.dead || (traits.immortal && state.iteration % 10 < 5)) {
             return
         }
         else if (traits.bending) {

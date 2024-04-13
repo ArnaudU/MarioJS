@@ -1,0 +1,147 @@
+{
+    "drapeau": {
+        "position": {
+            "x": 1500,
+            "y": 0
+        }
+    },
+    "obstacle": [
+        {
+            "type": "bloc simple",
+            "position": {
+                "x": 900,
+                "y": 50
+            }
+        },
+        {
+            "type": "bloc coeur",
+            "position": {
+                "x": 150,
+                "y": 200
+            }
+        },
+        {
+            "type": "bloc simple",
+            "position": {
+                "x": 50,
+                "y": 500
+            }
+        },
+        {
+            "type": "bloc simple",
+            "position": {
+                "x": 100,
+                "y": 500
+            }
+        },
+        {
+            "type": "bloc simple",
+            "position": {
+                "x": 150,
+                "y": 500
+            }
+        },
+        {
+            "type": "bloc simple",
+            "position": {
+                "x": 200,
+                "y": 500
+            }
+        },
+        {
+            "type": "bloc simple",
+            "position": {
+                "x": 250,
+                "y": 500
+            }
+        },
+        {
+            "type": "bloc simple",
+            "position": {
+                "x": 300,
+                "y": 500
+            }
+        },
+        {
+            "type": "bloc simple",
+            "position": {
+                "x": 350,
+                "y": 500
+            }
+        },
+        {
+            "type": "bloc simple",
+            "position": {
+                "x": 400,
+                "y": 500
+            }
+        },
+        {
+            "type": "wood",
+            "position": {
+                "x": 400,
+                "y": 450
+            }
+        },
+        {
+            "type": "wood",
+            "position": {
+                "x": 400,
+                "y": 400
+            }
+        },
+        {
+            "type": "wood",
+            "position": {
+                "x": 400,
+                "y": 350
+            }
+        },
+        {
+            "type": "wood",
+            "position": {
+                "x": 400,
+                "y": 300
+            }
+        },
+        {
+            "type": "wood",
+            "position": {
+                "x": 400,
+                "y": 250
+            }
+        },
+        {
+            "type": "wood",
+            "position": {
+                "x": 400,
+                "y": 200
+            }
+        },
+        {
+            "type": "wood",
+            "position": {
+                "x": 400,
+                "y": 160
+            }
+        },
+        {
+            "type": "wood",
+            "position": {
+                "x": 400,
+                "y": 50
+            }
+        }
+    ],
+    "object": [
+        {
+            "type": "shell",
+            "interval": 0,
+            "position": {
+                "x": 100,
+                "y": 40
+            },
+            "speed": 3
+        }
+    ]
+}

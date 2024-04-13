@@ -5,6 +5,7 @@ import { State } from "../state/state";
 const BackGroundContour = {
     grass: { sx: 50, sy: 1080, sw: 980, sh: 110 },
     sky: { sx: 0, sy: 0, sw: 1520, sh: 1080 },
+    skywithoutBigCloud: { sx: 0, sy: 0, sw: 1520, sh: 50 }
 }
 
 export class BackGroundFrame {
@@ -42,18 +43,24 @@ export class BackGroundFrame {
 
     drawBackground(ctx: CanvasRenderingContext2D, state: State) {
         var x = Math.floor(this.background.x)
-        var ysky = Math.floor(state.frame.y / 2)
+        var ysky = -Math.floor(state.frame.y / 2)
         //Premier partie de l'image a draw
-        ctx.drawImage(this.image, BackGroundContour.sky.sx, BackGroundContour.sky.sy, BackGroundContour.sky.sw, BackGroundContour.sky.sh,
-            x, this.background.y - ysky, state.screen.width, state.screen.height);
+        ctx.drawImage(this.image, BackGroundContour.sky.sx, BackGroundContour.sky.sy,
+            BackGroundContour.sky.sw, BackGroundContour.sky.sh,
+            x, ysky, state.screen.width, state.screen.height);
         //Autre image a draw
         ctx.drawImage(this.image,
             BackGroundContour.sky.sx, BackGroundContour.sky.sy, BackGroundContour.sky.sw, BackGroundContour.sky.sh,
-            x - state.screen.width, this.background.y - ysky, state.screen.width, state.screen.height);
+            x - state.screen.width, ysky, state.screen.width, state.screen.height);
 
+        //S'il saute dessine le haut de l'image
         ctx.drawImage(this.image,
-            BackGroundContour.sky.sx, BackGroundContour.sky.sy, BackGroundContour.sky.sw, BackGroundContour.sky.sh,
-            x, this.background.y - ysky, state.screen.width, state.screen.height);
+            BackGroundContour.skywithoutBigCloud.sx, BackGroundContour.skywithoutBigCloud.sy,
+            BackGroundContour.skywithoutBigCloud.sw, BackGroundContour.skywithoutBigCloud.sh,
+            0, 0, state.screen.width, ysky
+        )
+
+
 
         var xgrass = -Math.floor(state.frame.x) % state.screen.width
         ctx.drawImage(this.image, BackGroundContour.grass.sx, BackGroundContour.grass.sy, BackGroundContour.grass.sw, BackGroundContour.grass.sh,
@@ -93,4 +100,20 @@ export class BackGroundFrame {
         }
     }
 
+    drawRect(obj: ObjectImmobile, ctx: CanvasRenderingContext2D, state: State, color: string) {
+        if (this.canDraw(obj, state)) {
+            ctx.fillStyle = color;
+            ctx.fillRect(obj.x - this.x, obj.y - this.y, obj.size.width, obj.size.height);
+        }
+
+    }
+
+    drawCircle(obj: ObjectImmobile, ctx: CanvasRenderingContext2D, state: State, color: string) {
+        if (this.canDraw(obj, state)) {
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(obj.x - this.x + obj.size.width / 2, obj.y - this.y + obj.size.height / 2, obj.size.width / 2, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+    }
 }

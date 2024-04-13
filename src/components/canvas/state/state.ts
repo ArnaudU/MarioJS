@@ -1,7 +1,7 @@
 import { BackGroundFrame } from "../render/frame";
 import { Mario } from "./charactere"
-import { Drapeau, WoodWall } from "./object";
-import { ObjectMobile } from "./object"; // Import the missing ObjectMobile class
+import { ObjectMobile, ObjectImmobile } from "./object";
+import { Drapeau } from "./obstacle";
 
 export type State = {
     mario: Mario
@@ -9,9 +9,9 @@ export type State = {
     position: { x: number, y: number }
     endOfGame: boolean
     iteration: number
-    input: { keyUp: boolean, keyDown: boolean, keyRight: boolean, keyLeft: boolean, keyS: boolean, sound: boolean }
+    input: { keyUp: boolean, keyDown: boolean, keyRight: boolean, keyLeft: boolean, keyS: boolean, sound: boolean, dev: boolean }
     frame: BackGroundFrame
-    obstacle: Array<WoodWall>
+    obstacle: Array<ObjectImmobile>
     object: Array<ObjectMobile>
     drapeau: Drapeau
 }
@@ -37,11 +37,8 @@ const endOfGame = (state: State) => {
 }
 
 const updateObstacles = (state: State) => {
-    for (let i = 0; i < state.obstacle.length; i++) {
-        if (state.obstacle[i].hasNoLife()) {
-            state.obstacle.splice(i, 1)
-            i--
-        }
+    for (let obstacle of state.obstacle) {
+        obstacle.step(state);
     }
     return state
 }

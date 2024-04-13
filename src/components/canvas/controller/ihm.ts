@@ -14,6 +14,7 @@ export function onKeyPressed(event: KeyboardEvent, state: State) {
         case 'ArrowRight':
             state.input.keyRight = true
             break
+
     }
     return state
 }
@@ -37,6 +38,10 @@ export function onKeyReleased(event: KeyboardEvent, state: State) {
             break
         case 's':
             state.input.sound = !state.input.sound
+            break
+        case 'd':
+            state.input.dev = !state.input.dev
+            break
     }
     return state
 }

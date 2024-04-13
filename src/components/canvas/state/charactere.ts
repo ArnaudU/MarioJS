@@ -32,7 +32,7 @@ export class Mario extends Character {
         jumping: false, running: false, bending: false,
         falling: false, climbing: false, dead: false,
         collisionOnTop: false, collisionOnBottom: false,
-        hasDestroyed: false, lostALife: false
+        hasDestroyed: false, lostALife: false, immortal: false
     };
     immunise: number = 0
     life: number = 3
@@ -82,6 +82,17 @@ export class Mario extends Character {
         }
     }
 
+    collisionDangerous() {
+        if (!this.traits.immortal) {
+            this.traits.lostALife = true
+            this.traits.immortal = true
+            this.life--;
+            setTimeout(() => {
+                this.traits.immortal = false
+            }, 2000)
+        }
+    }
+
     graviteOnMario(state: State): void {
         let hitObstacleOnTopOfMario = false
         for (const obstacle of state.obstacle) {
@@ -125,6 +136,7 @@ export class Mario extends Character {
         for (const obstacle of state.obstacle) {
             if (obstacle.collisionOnLeft(this) && this.vx > 0) {
                 this.vx = 0
+                state.mario.x = obstacle.x - state.mario.size.width
             }
             else if (obstacle.collisionOnRight(this) && this.vx < 0) {
                 this.vx = 0

@@ -1,7 +1,8 @@
 import { useRef, useEffect, useState } from 'react'
-import Loader from './components/loader'
+import Loader from './components/page/loader'
 import Canvas from './components/canvas'
 import './App.css'
+import GameMenu from './components/page/menu'
 
 type Size = {
   height: number
@@ -20,7 +21,7 @@ const App = () => {
   })
   return (
     <div className="App" ref={container}>
-      {size ? <Canvas {...size} /> : <Loader />}
+      <GameMenu size={size} />
     </div>
   )
 }

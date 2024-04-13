@@ -1,0 +1,10 @@
+{
+    "drapeau": {
+        "position": {
+            "x": 1500,
+            "y": 0
+        }
+    },
+    "obstacle": [],
+    "object": []
+}

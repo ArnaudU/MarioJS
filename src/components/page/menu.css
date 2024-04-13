@@ -1,0 +1,40 @@
+.menu {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    /* Spécifier le chemin relatif de l'image */
+    background-size: cover;
+}
+
+.menu h1 {
+    color: #FF5733;
+    /* Couleur de titre */
+}
+
+.menu ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.menu li {
+    cursor: pointer;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+    /* Ligne de séparation */
+}
+
+.menu li:hover {
+    background-color: #f5f5f5;
+    /* Couleur de fond au survol */
+}
+
+.menu li:last-child {
+    border-bottom: none;
+    /* Supprimer la ligne de séparation du dernier élément */
+}
