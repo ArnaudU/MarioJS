@@ -1,4 +1,4 @@
-import { drapeauImage, fuseeImage, heartImage, mushroomImage, obstacleImage, shellImage } from "../conf"
+import { drapeauImage, fuseeImage, goldentBlocImage, heartImage, mushroomImage, obstacleImage, shellImage } from "../conf"
 import { ObjectImmobile, Shell } from "../state/object"
 import { BlocWall, WoodWall, Drapeau } from "../state/obstacle"
 import { State } from "../state/state"
@@ -17,7 +17,6 @@ export class WoodWallRenderer extends Renderer {
     render(ctx: CanvasRenderingContext2D, state: State, obstacle: WoodWall) {
         obstacle.img.src = obstacleImage
         var img = WoodWallContour.carre
-
         state.frame.draw(obstacle, ctx, state, obstacle.img,
             img.sx, img.sy,
             img.sw, img.sh,
@@ -98,14 +97,24 @@ export
 
 export class BlocWallRenderer extends Renderer {
     render(ctx: CanvasRenderingContext2D, state: State, obstacle: BlocWall) {
-        obstacle.img.src = drapeauImage
-        var img = DrapeauContour.bloc
-
-        state.frame.draw(obstacle, ctx, state, obstacle.img,
-            img.sx, img.sy,
-            img.sw, img.sh,
-            obstacle.x, obstacle.y,
-            obstacle.size.width, obstacle.size.height)
+        var img
+        if (obstacle.gift) {
+            obstacle.img.src = goldentBlocImage
+            state.frame.draw(obstacle, ctx, state, obstacle.img,
+                0, 0,
+                obstacle.img.width, obstacle.img.height,
+                obstacle.x, obstacle.y,
+                obstacle.size.width, obstacle.size.height)
+        }
+        else {
+            img = DrapeauContour.bloc
+            obstacle.img.src = drapeauImage
+            state.frame.draw(obstacle, ctx, state, obstacle.img,
+                img.sx, img.sy,
+                img.sw, img.sh,
+                obstacle.x, obstacle.y,
+                obstacle.size.width, obstacle.size.height)
+        }
     }
 }
 

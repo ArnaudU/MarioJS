@@ -90,9 +90,6 @@ export class ObjectNonSpecified extends ObjectImmobile {
 
 }
 
-
-
-
 export class Shell extends ObjectMobile {
 
     constructor(position: { x: number, y: number }, size: { height: number; width: number; }, speed: number) {

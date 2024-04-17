@@ -27,6 +27,7 @@ const endOfGame = (state: State) => {
     state.mario.traits.running = false
     state.mario.dx = 0
     state.endOfGame = true
+
     if (state.drapeau.drapeau.y + state.drapeau.drapeau.size.height < state.drapeau.bloc.y + state.drapeau.bloc.size.height) {
         state.drapeau.drapeau.y++
     }

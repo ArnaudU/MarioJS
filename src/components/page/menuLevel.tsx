@@ -8,10 +8,6 @@ interface LevelItem {
     action: () => void;
 }
 
-interface LevelMenuItem {
-    items: LevelItem[];
-}
-
 export const LevelMenu: React.FC<GameMenuProps> = ({ size }) => {
 
     const [levelOnClick, setLevelOnClick] = useState<string>("");
@@ -26,7 +22,7 @@ export const LevelMenu: React.FC<GameMenuProps> = ({ size }) => {
         { label: 'Go Back', action: () => { setLevelOnClick("back") } },
     ];
     if (levelOnClick === "back") {
-        return <GameMenu size={size} />
+        window.location.href = "/";
     }
 
     if (levelOnClick !== "") {

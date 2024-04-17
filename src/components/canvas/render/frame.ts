@@ -1,5 +1,5 @@
 import { backgroundImage, terrainSkyBoundary } from "../conf";
-import { ObjectImmobile } from "../state/object";
+import { ObjectImmobile, ObjectNonSpecified } from "../state/object";
 import { State } from "../state/state";
 
 const BackGroundContour = {
@@ -8,6 +8,7 @@ const BackGroundContour = {
     skywithoutBigCloud: { sx: 0, sy: 0, sw: 1520, sh: 50 }
 }
 
+//Classe qui permet de dessiner le canvas et qui donne les permissions de dessiner
 export class BackGroundFrame {
     static imageStatic = new Image();
     image: HTMLImageElement;
@@ -90,15 +91,21 @@ export class BackGroundFrame {
     canDraw(obj: ObjectImmobile, state: State) {
         return this.x + state.screen.width >= obj.x && obj.x + obj.size.width >= this.x
             && this.y + state.screen.height >= obj.y && obj.y + obj.size.height >= this.y
+
     }
+
 
     draw(obj: ObjectImmobile, ctx: CanvasRenderingContext2D, state: State,
         img: HTMLImageElement, sx: number,
         sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number) {
-        if (this.canDraw(obj, state)) {
+        if (obj instanceof ObjectNonSpecified) {
+            ctx.drawImage(img, sx, sy, sw, sh, dx - this.x, dy - this.y, dw, dh)
+        }
+        else if (this.canDraw(obj, state)) {
             ctx.drawImage(img, sx, sy, sw, sh, dx - this.x, dy - this.y, dw, dh)
         }
     }
+
 
     drawRect(obj: ObjectImmobile, ctx: CanvasRenderingContext2D, state: State, color: string) {
         if (this.canDraw(obj, state)) {

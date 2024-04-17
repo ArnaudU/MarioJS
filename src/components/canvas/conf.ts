@@ -16,6 +16,15 @@ export const warningCollision: string = './img/warningCollision.png'
 export const fuseeImage: string = './img/fusee.png'
 export const mushroomImage: string = './img/mushroom.png'
 export const heartImage: string = './img/heart.png'
+export const goldentBlocImage: string = './img/goldenbloc.png'
+
+export const jump = new Audio("./sound/jump.wav");
+export const dead = new Audio("./sound/gameover.wav");
+export const bending = new Audio("./sound/bending.wav");
+export const win = new Audio("./sound/win.wav");
+export const colision = new Audio("./sound/colision.wav");
+export const warningCollisionSound = new Audio("./sound/warningCollision.wav");
+
 
 export const devMode: boolean = true;
 export function terrainSkyBoundary(state: State) {

@@ -1,16 +1,10 @@
-import { backgroundSound } from "../conf";
+import { backgroundSound, bending, colision, dead, jump, warningCollisionSound, win } from "../conf";
 import { State } from "../state/state";
 
 const audio = new Audio(backgroundSound);
 const chargeAudioBackground = () => audio.play();
 const dechargeAudioBackground = () => audio.pause();
 
-const jump = new Audio("./sound/jump.wav");
-const dead = new Audio("./sound/gameover.wav");
-const bending = new Audio("./sound/bending.wav");
-const win = new Audio("./sound/win.wav");
-const colision = new Audio("./sound/colision.wav");
-const warningCollision = new Audio("./sound/warningCollision.wav");
 
 export const BackGroundSoundEffect = {
     chargeAudioBackground: chargeAudioBackground,
@@ -22,7 +16,7 @@ export const MarioSoundEffect = {
     dead: { audio: dead, played: false },
     jump: { audio: jump, played: false },
     bending: { audio: bending, played: false },
-    lostAlife: { audio: warningCollision, played: false },
+    lostAlife: { audio: warningCollisionSound, played: false },
     destroyed: { audio: colision, played: false },
     win: { audio: win }
 }
@@ -68,7 +62,7 @@ export const UpdateAudio = (state: State) => {
             state.mario.traits.hasDestroyed = false;
             state.mario.traits.collisionOnTop = false;
         }
-        if (state.mario.traits.lostALife && !MarioSoundEffect.lostAlife.played) {
+        if (state.mario.traits.lostALife && !MarioSoundEffect.lostAlife.played && state.mario.life > 0) {
             MarioSoundEffect.lostAlife.played = true
             MarioSoundEffect.lostAlife.audio.play()
             state.mario.traits.lostALife = false
@@ -79,7 +73,11 @@ export const UpdateAudio = (state: State) => {
     }
 
     else {
-
+        MarioSoundEffect.jump.played = false;
+        MarioSoundEffect.bending.played = false;
+        MarioSoundEffect.lostAlife.played = false;
+        MarioSoundEffect.destroyed.played = false;
+        MarioSoundEffect.dead.played = false;
         BackGroundSoundEffect.dechargeAudioBackground()
     }
 }

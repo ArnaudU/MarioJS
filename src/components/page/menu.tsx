@@ -17,7 +17,7 @@ interface MenuProps {
 const Menu: React.FC<MenuProps> = ({ items }) => {
     return (
         <div className="menu">
-            <h1>Menu Mario</h1>
+            <h1>Menu Principale Super Mario BroWish</h1>
             <ul>
                 {items.map((item, index) => (
                     <li key={index} onClick={item.action}>
@@ -52,7 +52,7 @@ const GameMenu: React.FC<GameMenuProps> = ({ size }) => {
         return size ? <Canvas {...size} level="level0" /> : <Loader />
     }
     else if (levelMenuOnClick) {
-        return <LevelMenu size={size} />
+        window.location.href = "/level";
     }
     // Définir les éléments du menu
     const menuItems: MenuItem[] = [

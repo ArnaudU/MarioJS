@@ -3,7 +3,8 @@ import Loader from './components/page/loader'
 import Canvas from './components/canvas'
 import './App.css'
 import GameMenu from './components/page/menu'
-
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { LevelMenu } from './components/page/menuLevel'
 type Size = {
   height: number
   width: number
@@ -21,7 +22,13 @@ const App = () => {
   })
   return (
     <div className="App" ref={container}>
-      <GameMenu size={size} />
+      <Router>
+        <Routes>
+          <Route path="/level" element={<LevelMenu size={size} />} />
+          <Route path="/" element={<GameMenu size={size} />} />
+          <Route path="/*" element={<Navigate to="/" />} />
+        </Routes>
+      </Router>
     </div>
   )
 }
